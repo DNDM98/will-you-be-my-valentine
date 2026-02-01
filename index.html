@@ -2,183 +2,216 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Will you be my Valentine?</title>
+
   <style>
     :root{
       --card-bg: rgba(255,255,255,0.88);
       --shadow: 0 20px 70px rgba(0,0,0,0.25);
       --yes: #ff2a7a;
+      --no: #e9eef6;
+      --text: #111;
     }
 
-    *{ box-sizing: border-box; }
-    html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-}
+    html, body{
+      height: 100%;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
 
-body {
-  background: url("bg.jpg") center / cover no-repeat fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    /* Background image */
+    body{
+      background-image: url("./bg.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
 
-
-    /* Dark overlay for readability */
+    /* Light dark overlay for readability */
     .overlay{
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.25);
+      background: rgba(0,0,0,0.18);
       pointer-events: none;
     }
 
-    /* Pop-in card */
-    .card{
-      width: min(720px, calc(100vw - 32px));
-      background: var(--card-bg);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      padding: 28px 24px;
-      text-align: center;
+    /* Center container */
+    .page{
       position: relative;
-      transform: scale(0.92);
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+
+    /* Card pop-in */
+    .card{
+      width: min(780px, 92vw);
+      background: var(--card-bg);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 34px 34px 28px;
+      box-sizing: border-box;
+      text-align: center;
+      transform: translateY(10px) scale(0.98);
       opacity: 0;
-      animation: popIn 480ms ease forwards;
+      animation: popIn 550ms ease forwards;
     }
 
     @keyframes popIn{
-      to { transform: scale(1); opacity: 1; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .sticker{
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 10px;
+      background: rgba(255,255,255,0.7);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      font-size: 30px;
     }
 
     h1{
-      margin: 8px 0 8px;
-      font-size: clamp(26px, 3.2vw, 38px);
+      margin: 10px 0 8px;
+      font-size: clamp(28px, 3.6vw, 44px);
       line-height: 1.15;
-      color: #111;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      text-transform: lowercase;
     }
 
     .sub{
-      margin: 0 0 18px;
+      margin: 0 0 22px;
       color: rgba(0,0,0,0.65);
       font-size: 15px;
     }
 
     .btnRow{
-      margin-top: 18px;
-      display: flex;
-      justify-content: center;
-      gap: 18px;
       position: relative;
-      height: 64px;
+      display: inline-flex;
+      gap: 18px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 6px;
+      height: 74px; /* gives space for the No button to move inside */
     }
 
     button{
       border: 0;
       cursor: pointer;
-      padding: 14px 26px;
-      border-radius: 999px;
       font-weight: 700;
+      border-radius: 999px;
+      padding: 16px 28px;
       font-size: 16px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-      transition: transform 120ms ease;
-      position: relative;
+      transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
       user-select: none;
+      -webkit-user-select: none;
     }
 
-    button:active{
-      transform: translateY(1px) scale(0.99);
-    }
-
-    /* YES highlighted */
     #yesBtn{
       background: var(--yes);
       color: white;
-      outline: 3px solid rgba(255,42,122,0.25);
-      animation: glow 1200ms ease-in-out infinite;
+      box-shadow: 0 16px 40px rgba(255,42,122,0.35);
+      animation: glow 1.2s ease-in-out infinite;
     }
 
     @keyframes glow{
-      0%,100% { box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 0 0 0 rgba(255,42,122,0.35); }
-      50%     { box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 0 24px 10px rgba(255,42,122,0.28); }
+      0%, 100% { filter: brightness(1); transform: translateY(0); }
+      50% { filter: brightness(1.08); transform: translateY(-1px); }
     }
 
-    /* NO moves around */
+    #yesBtn:hover{ transform: translateY(-2px) scale(1.02); }
+
     #noBtn{
-      background: #e9eef5;
-      color: #111;
-      position: absolute;
-      left: 58%;
+      position: absolute; /* lets it “run away” */
+      left: 170px;
       top: 0px;
+      background: var(--no);
+      color: #111;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.12);
     }
+
+    #noBtn:hover{ transform: translateY(-2px); }
 
     .hint{
-      margin-top: 10px;
-      font-size: 13px;
+      margin-top: 18px;
       color: rgba(0,0,0,0.55);
+      font-size: 13px;
+      line-height: 1.35;
     }
 
-    .tiny{
-      margin-top: 6px;
-      font-size: 12px;
-      color: rgba(0,0,0,0.45);
-    }
+    .hint b{ color: rgba(0,0,0,0.72); }
   </style>
 </head>
+
 <body>
   <div class="overlay"></div>
 
-  <div class="card" id="card">
-    <div style="font-size:34px; line-height: 1;">🐼💗</div>
-    <h1>hey j-man, will you be my valentine?</h1>
-    <p class="sub">Be careful, one of these buttons is feeling shy.</p>
+  <div class="page">
+    <div class="card" id="card">
+      <div class="sticker" aria-hidden="true">🐼💗</div>
 
-    <div class="btnRow" id="btnRow">
-      <button id="yesBtn" type="button">Yes</button>
-      <button id="noBtn" type="button">No</button>
+      <h1 id="question">hey j-man, will you be my valentine?</h1>
+      <p class="sub">Be careful, one of these buttons is feeling shy.</p>
+
+      <div class="btnRow" id="btnRow">
+        <button id="yesBtn">Yes</button>
+        <button id="noBtn">No</button>
+      </div>
+
+      <div class="hint">
+        Tip: try clicking <b>"No"</b> 😈<br/>
+        (It may not cooperate.)
+      </div>
     </div>
-
-    <div class="hint">Tip: try clicking “No” 😈</div>
-    <div class="tiny">(It may not cooperate.)</div>
   </div>
 
   <script>
     const noBtn = document.getElementById("noBtn");
-    const btnRow = document.getElementById("btnRow");
     const yesBtn = document.getElementById("yesBtn");
+    const btnRow = document.getElementById("btnRow");
 
-    function moveNoButton() {
+    function rand(min, max){
+      return Math.random() * (max - min) + min;
+    }
+
+    function moveNoButton(){
       const rowRect = btnRow.getBoundingClientRect();
       const btnRect = noBtn.getBoundingClientRect();
 
-      // Random position inside the button row
+      // Keep it inside the row bounds
       const maxX = rowRect.width - btnRect.width;
       const maxY = rowRect.height - btnRect.height;
 
-      const x = Math.max(0, Math.floor(Math.random() * maxX));
-      const y = Math.max(0, Math.floor(Math.random() * maxY));
+      const x = Math.floor(rand(0, Math.max(0, maxX)));
+      const y = Math.floor(rand(0, Math.max(0, maxY)));
 
       noBtn.style.left = x + "px";
       noBtn.style.top = y + "px";
     }
 
-    // Make NO run away when hovered or tapped
-    ["mouseenter", "mouseover", "touchstart", "pointerenter", "pointerdown"].forEach(evt => {
+    // Run away on hover and on attempted click
+    ["mouseenter", "mouseover", "click", "mousedown", "touchstart"].forEach(evt => {
       noBtn.addEventListener(evt, (e) => {
         e.preventDefault();
         moveNoButton();
       }, { passive: false });
     });
 
-    // Move it once on load so it's not static
-    setTimeout(moveNoButton, 200);
-
-    // YES goes to yes.html
+    // When YES is clicked, go to yes.html
     yesBtn.addEventListener("click", () => {
-      window.location.href = "yes.html";
+      window.location.href = "./yes.html";
     });
+
+    // Put "No" somewhere nice at the start
+    moveNoButton();
   </script>
 </body>
 </html>
