@@ -170,12 +170,19 @@
     <div class="tiny">"No" seems a bit shy 😈</div>
 
     <div class="success" id="success">
-      <h2>YAY! 🎉</h2>
-      <img class="photo" id="photo" src="photo.jpg" alt="Us" />
-      <p class="dateNote" id="dateNote">
-        Date idea: dinner + dessert + a tiny surprise. Check your messages for the plan 💌
-      </p>
-    </div>
+  <h2>YAY! 🎉</h2>
+  <img class="photo" id="photo" src="photo.jpg" alt="Us" />
+  <p class="dateNote" id="dateNote"></p>
+
+  <div style="margin-top:14px;">
+    <button id="revealBtn" style="background:#111827;color:#fff;box-shadow:0 12px 26px rgba(0,0,0,0.25);">
+      Reveal the plan 💌
+    </button>
+  </div>
+
+  <p class="dateNote" id="planText" style="display:none;margin-top:12px;"></p>
+</div>
+
   </div>
 
   <script>
