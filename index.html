@@ -95,4 +95,85 @@
       animation: glow 1200ms ease-in-out infinite;
     }
 
-    @keyframe
+    @keyframes glow{
+      0%,100% { box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 0 0 0 rgba(255,42,122,0.35); }
+      50%     { box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 0 24px 10px rgba(255,42,122,0.28); }
+    }
+
+    /* NO moves around */
+    #noBtn{
+      background: #e9eef5;
+      color: #111;
+      position: absolute;
+      left: 58%;
+      top: 0px;
+    }
+
+    .hint{
+      margin-top: 10px;
+      font-size: 13px;
+      color: rgba(0,0,0,0.55);
+    }
+
+    .tiny{
+      margin-top: 6px;
+      font-size: 12px;
+      color: rgba(0,0,0,0.45);
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="card" id="card">
+    <div style="font-size:34px; line-height: 1;">🐼💗</div>
+    <h1>hey j-man, will you be my valentine?</h1>
+    <p class="sub">Be careful, one of these buttons is feeling shy.</p>
+
+    <div class="btnRow" id="btnRow">
+      <button id="yesBtn" type="button">Yes</button>
+      <button id="noBtn" type="button">No</button>
+    </div>
+
+    <div class="hint">Tip: try clicking “No” 😈</div>
+    <div class="tiny">(It may not cooperate.)</div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const btnRow = document.getElementById("btnRow");
+    const yesBtn = document.getElementById("yesBtn");
+
+    function moveNoButton() {
+      const rowRect = btnRow.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      // Random position inside the button row
+      const maxX = rowRect.width - btnRect.width;
+      const maxY = rowRect.height - btnRect.height;
+
+      const x = Math.max(0, Math.floor(Math.random() * maxX));
+      const y = Math.max(0, Math.floor(Math.random() * maxY));
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    // Make NO run away when hovered or tapped
+    ["mouseenter", "mouseover", "touchstart", "pointerenter", "pointerdown"].forEach(evt => {
+      noBtn.addEventListener(evt, (e) => {
+        e.preventDefault();
+        moveNoButton();
+      }, { passive: false });
+    });
+
+    // Move it once on load so it's not static
+    setTimeout(moveNoButton, 200);
+
+    // YES goes to yes.html
+    yesBtn.addEventListener("click", () => {
+      window.location.href = "yes.html";
+    });
+  </script>
+</body>
+</html>
